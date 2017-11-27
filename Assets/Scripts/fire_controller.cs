@@ -24,11 +24,9 @@ public class fire_controller : MonoBehaviour {
         if (Input.GetKey("space") && timer > fireRate)
         {
             Quaternion spawnRot = transform.rotation;
-            spawnRot.z = spawnRot.z + Random.Range(-spread, spread);
-            Vector3 spawnLoc = transform.position;
-            spawnLoc.z = 0;
+            spawnRot.x = spawnRot.x + Random.Range(-spread, spread);
 
-            Instantiate(projectile, spawnLoc, spawnRot);
+            Instantiate(projectile, transform.position, spawnRot);
             gameObject.GetComponent<AudioSource>().Play();
             timer = 0;
         }

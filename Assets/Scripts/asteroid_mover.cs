@@ -23,6 +23,10 @@ public class asteroid_mover : MonoBehaviour {
 
     private void FixedUpdate()
     {
+        if (transform.rotation.y > 0)
+        {
+            transform.Rotate(0, -180, 0);
+        }
         if (lifeTime == 0)
         {
             Destroy(gameObject);

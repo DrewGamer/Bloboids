@@ -9,6 +9,7 @@ public class laser_force : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
+        transform.Rotate(-180, -90, 90);
 		
 	}
 	

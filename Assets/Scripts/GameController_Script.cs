@@ -57,7 +57,7 @@ public class GameController_Script : MonoBehaviour {
             if (Input.GetKey("r"))
             {
                 Time.timeScale = 1;
-                Instantiate(ship, new Vector3(0, 0, 0), Random.rotation);
+                Instantiate(ship, new Vector3(0, 0, 0), Quaternion.Euler(0,0,Random.Range(0,360)));
                 controlsPanel.SetActive(false);
                 isDead = false;
             }
