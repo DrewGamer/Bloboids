@@ -10,6 +10,7 @@ public class GameController_Script : MonoBehaviour {
     public GameObject scorePanel;
     public GameObject ship;
     public GameObject controlsPanel;
+    public GameObject specialAttackPanel;
     public Text scoreText;
     public Text gameOverText;
 
@@ -19,11 +20,16 @@ public class GameController_Script : MonoBehaviour {
     private static int lives = 3;
     private static float scoreMult;
 
+    private static int extraLife = 0;
+    private static int specialTracker = 0;
+    private static int specialAttacks = 0;
+
     private void Start()
     {
         Time.timeScale = 0;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
+        scoreText.GetComponent<Text>().material.color = new Color(scoreText.GetComponent<Text>().material.color.r, scoreText.GetComponent<Text>().material.color.g, scoreText.GetComponent<Text>().material.color.b, 100);
     }
 
     void Update()
@@ -35,6 +41,15 @@ public class GameController_Script : MonoBehaviour {
             gameOverPanel.SetActive(true);
             gameOver = true;
             Time.timeScale = 0;
+        }
+
+        if (specialAttacks > 0)
+        {
+            specialAttackPanel.SetActive(true);
+        }
+        else
+        {
+            specialAttackPanel.SetActive(false);
         }
 
         if (gameOver)
@@ -64,10 +79,12 @@ public class GameController_Script : MonoBehaviour {
             }
         }
 
+        /*
         if (Input.GetKey("escape"))
         {
             Application.Quit();
         }
+        */
     }
 
     public static int GetScore()
@@ -80,12 +97,36 @@ public class GameController_Script : MonoBehaviour {
         return lives;
     }
 
+    public static int GetSpecialAttacks()
+    {
+        return specialAttacks;
+    }
+
+    public static void SetSpecialAttacks(int numAttacks)
+    {
+        specialAttacks += numAttacks;
+    }
+
     public static void IncreaseScore(int points)
     {
         scoreMult = GameObject.FindGameObjectWithTag("Player").GetComponent<Rigidbody>().velocity.magnitude;
         if (scoreMult < 1)
             scoreMult = 1;
         score += (int)(points * scoreMult);
+
+        extraLife += (int)(points * scoreMult);
+        if (extraLife >= 500)
+        {
+            extraLife = 0 + extraLife % 500;
+            lives++;
+        }
+
+        specialTracker += (int)(points * scoreMult);
+        if (specialTracker >= 100)
+        {
+            specialTracker = 0 + specialTracker % 100;
+            specialAttacks++;
+        }
     }
 
     public static void DecreaseLives()

@@ -20,9 +20,11 @@ public class player_controller_tank : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("space") && GameController_Script.GetScore() >= 0)
+        // control for special attack
+        if (Input.GetKeyDown("space") && GameController_Script.GetSpecialAttacks() > 0)
         {
             Instantiate(superNova, transform.position, superNova.transform.rotation, transform);
+            GameController_Script.SetSpecialAttacks(-1);
 
         }
 
