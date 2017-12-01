@@ -21,8 +21,9 @@ public class fire_controller : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (Input.GetKey("space") && timer > fireRate)
+        if (Input.GetButton("Fire1") && timer > fireRate)
         {
+            
             Quaternion spawnRot = transform.rotation;
             spawnRot.x = spawnRot.x + Random.Range(-spread, spread);
 

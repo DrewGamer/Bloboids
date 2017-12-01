@@ -48,7 +48,8 @@ public class GameController_Script : MonoBehaviour {
             {
                 NewGame();
                 Time.timeScale = 1;
-                SceneManager.LoadScene("house_scene");
+                //SceneManager.LoadScene("house_scene");
+                Application.Quit();
             }
         }
 

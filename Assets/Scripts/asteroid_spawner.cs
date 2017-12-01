@@ -30,59 +30,31 @@ public class asteroid_spawner : MonoBehaviour {
             {
                 case 0:
                     //topside asteroid spawn
-                    spawnRot.z = Random.Range(0, 360);
-                    Vector3 spawnLoc = transform.position;
-                    spawnLoc = new Vector3(Random.Range(-5.0f, 6.0f), 5, 0);
-                    //spawnLoc.z = 0;
-                    //spawnLoc.x = Random.Range(-5.0f, 6.0f);
-                    //spawnLoc.y = 5;
-
-                    //float scale = Random.Range(0.1f, 0.5f);
+                    Vector3 spawnLoc = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.0f, 1.0f), 1, 0));
+                    spawnLoc.z = 0;
 
                     GameObject asteroidTop = Instantiate(asteroid, spawnLoc, spawnRot);
-                    //asteroidTop.transform.localScale = new Vector3(scale, scale, scale);
                     break;
                 case 1:
                     //botside asteroid spawn
-                    spawnRot.z = Random.Range(0, 360);
-                    spawnLoc = transform.position;
-                    spawnLoc = new Vector3(Random.Range(-5.0f, 6.0f), -5, 0);
-                    //spawnLoc.z = 0;
-                    //spawnLoc.x = Random.Range(-5.0f, 6.0f);
-                    //spawnLoc.y = 5;
-
-                    //scale = Random.Range(0.1f, 0.5f);
+                    spawnLoc = Camera.main.ViewportToWorldPoint(new Vector3(Random.Range(0.0f, 1.0f), 0, 0));
+                    spawnLoc.z = 0;
 
                     GameObject asteroidBot = Instantiate(asteroid, spawnLoc, spawnRot);
-                    //asteroidBot.transform.localScale = new Vector3(scale, scale, scale);
                     break;
                 case 2:
                     //leftside asteroid spawn
-                    spawnRot.z = Random.Range(0, 360);
-                    spawnLoc = transform.position;
-                    spawnLoc = new Vector3(-5, Random.Range(-5.0f, 6.0f), 0);
-                    //spawnLoc.z = 0;
-                    //spawnLoc.x = Random.Range(-5.0f, 6.0f);
-                    //spawnLoc.y = 5;
-
-                    //scale = Random.Range(0.1f, 0.5f);
+                    spawnLoc = Camera.main.ViewportToWorldPoint(new Vector3(0, Random.Range(0.0f, 1.0f), 0));
+                    spawnLoc.z = 0;
 
                     GameObject asteroidLeft = Instantiate(asteroid, spawnLoc, spawnRot);
-                    //asteroidLeft.transform.localScale = new Vector3(scale, scale, scale);
                     break;
                 case 3:
                     //rightside asteroid spawn
-                    spawnRot.z = Random.Range(0, 360);
-                    spawnLoc = transform.position;
-                    spawnLoc = new Vector3(5, Random.Range(-5.0f, 6.0f), 0);
-                    //spawnLoc.z = 0;
-                    //spawnLoc.x = Random.Range(-5.0f, 6.0f);
-                    //spawnLoc.y = 5;
-
-                    //scale = Random.Range(0.1f, 0.5f);
+                    spawnLoc = Camera.main.ViewportToWorldPoint(new Vector3(1, Random.Range(0.0f, 1.0f), 0));
+                    spawnLoc.z = 0;
 
                     GameObject asteroidRight = Instantiate(asteroid, spawnLoc, spawnRot);
-                    //asteroidRight.transform.localScale = new Vector3(scale, scale, scale);
                     break;
 
             }

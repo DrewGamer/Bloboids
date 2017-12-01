@@ -9,6 +9,7 @@ public class player_controller_tank : MonoBehaviour
     public int turnSpeed;
     public float topSpeed;
     public GameObject turret;
+    public GameObject superNova;
 
     // Use this for initialization
     void Start()
@@ -19,6 +20,11 @@ public class player_controller_tank : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown("space") && GameController_Script.GetScore() >= 0)
+        {
+            Instantiate(superNova, transform.position, superNova.transform.rotation, transform);
+
+        }
 
         //Rotate turret object to face mouse
 
@@ -31,8 +37,6 @@ public class player_controller_tank : MonoBehaviour
         float angle = Mathf.Atan2(mousePos.y, mousePos.x) * Mathf.Rad2Deg;
 
         turret.transform.rotation = Quaternion.Euler(new Vector3(180, 0, -angle));
-        //turret.transform.localRotation = Quaternion.Euler(new Vector3(270, -angle, 0));
-
 
         if (Input.GetKey("w"))
         {
@@ -49,7 +53,7 @@ public class player_controller_tank : MonoBehaviour
             GetComponent<Rigidbody>().velocity = GetComponent<Rigidbody>().velocity.normalized * topSpeed;
         }
 
-        // old code to rotate via keyboard
+        // rotate via keyboard
         if (Input.GetKey("a"))
         {
             transform.Rotate(Vector3.forward * Time.deltaTime * turnSpeed);
@@ -59,24 +63,19 @@ public class player_controller_tank : MonoBehaviour
             transform.Rotate(Vector3.back * Time.deltaTime * turnSpeed);
         }
 
-        /* trying to get a 180 flip from direction of motion
-        if (Input.GetKey("s"))
-        {
-            Debug.Log(GetComponent<Rigidbody>().velocity);
-
-            transform.rotation = Quaternion.Euler(GetComponent<Rigidbody>().velocity.normalized);
-        }
-        */
-
-        if (transform.position.x > 4.3f)
-            transform.position = new Vector3(-4.3f, transform.position.y, transform.position.z);
-        if (transform.position.x < -4.3f)
-            transform.position = new Vector3(4.3f, transform.position.y, transform.position.z);
-
-        if (transform.position.y > 3.3f)
-            transform.position = new Vector3(transform.position.x, -3.3f, transform.position.z);
-        if (transform.position.y < -3.3f)
-            transform.position = new Vector3(transform.position.x, 3.3f, transform.position.z);
+        // if the player moves out of the screen bounds, they appear on the opposite side of the screen
+        // this is for right side
+        if (Camera.main.WorldToViewportPoint(transform.position).x > 1.0f)
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(0.0f, Camera.main.WorldToViewportPoint(transform.position).y, Camera.main.WorldToViewportPoint(transform.position).z)); ;
+        // this is for left side
+        if (Camera.main.WorldToViewportPoint(transform.position).x < 0.0f)
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(1.0f, Camera.main.WorldToViewportPoint(transform.position).y, Camera.main.WorldToViewportPoint(transform.position).z));
+        // this is for top side
+        if (Camera.main.WorldToViewportPoint(transform.position).y > 1.0f)
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Camera.main.WorldToViewportPoint(transform.position).x, 0.0f, Camera.main.WorldToViewportPoint(transform.position).z));
+        // this is for bottom side
+        if (Camera.main.WorldToViewportPoint(transform.position).y < 0.0f)
+            transform.position = Camera.main.ViewportToWorldPoint(new Vector3(Camera.main.WorldToViewportPoint(transform.position).x, 1.0f, Camera.main.WorldToViewportPoint(transform.position).z));
     }
 
     private void OnTriggerEnter(Collider target)
@@ -87,7 +86,6 @@ public class player_controller_tank : MonoBehaviour
             //Instantiate(ship, new Vector3(0, 0, -11), transform.rotation);
             Destroy(target.gameObject);
             Destroy(gameObject);
-            Debug.Log(GameController_Script.GetLives());
         }
     }
 }

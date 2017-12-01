@@ -6,6 +6,7 @@ public class laser_force : MonoBehaviour {
 
     public float speed;
     public float lifeTime;
+    public GameObject explosion;
 
     // Use this for initialization
     void Start () {
@@ -36,6 +37,7 @@ public class laser_force : MonoBehaviour {
     {
         if (target.gameObject.tag == "Enemy")
         {
+            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(target.gameObject);
             Destroy(gameObject);
 
