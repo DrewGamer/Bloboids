@@ -5,11 +5,16 @@ using UnityEngine;
 public class slime_spawner : MonoBehaviour {
 
     public GameObject slime;
+    public GameObject boss;
     private int timer;
+    public float spawnRate;
+    private int spawnRateTimer;
 
 	// Use this for initialization
 	void Start () {
         timer = 0;
+        spawnRateTimer = 0;
+        spawnRate = 30;
 		
 	}
 	
@@ -21,7 +26,15 @@ public class slime_spawner : MonoBehaviour {
     private void FixedUpdate()
     {
         timer++;
-        if (timer > 30)
+        spawnRateTimer++;
+        if (spawnRateTimer > 2000)
+        {
+            spawnRate *= 0.8f;
+            spawnRateTimer = 0;
+        }
+            
+
+        if (timer > spawnRate)
         {
             timer = 0;
             int sideSelection = Random.Range(0, 4);
@@ -58,6 +71,15 @@ public class slime_spawner : MonoBehaviour {
                     break;
 
             }
+        }
+        if (GameController_Script.spawnBoss)
+        {
+            Quaternion spawnRot = new Quaternion();
+            Vector3 spawnLoc = Camera.main.ViewportToWorldPoint(new Vector3(0.51f, 1, 0));
+            spawnLoc.z = 0;
+
+            GameObject slimeBoss = Instantiate(boss, spawnLoc, spawnRot);
+            GameController_Script.spawnBoss = false;
         }
         
     }

@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class fire_controller : MonoBehaviour {
+public class fire_controller_gun : MonoBehaviour {
 
-    public GameObject projectile;
+    public GameObject projectileGun;
     public float spread;
     public int fireRate;
     private int timer;
@@ -21,13 +21,13 @@ public class fire_controller : MonoBehaviour {
 
     private void FixedUpdate()
     {
-        if (Input.GetButton("Fire1") && timer > fireRate)
+        if (Input.GetButton("Fire2") && timer > fireRate)
         {
-            
+
             Quaternion spawnRot = transform.rotation;
             spawnRot.x = spawnRot.x + Random.Range(-spread, spread);
 
-            Instantiate(projectile, transform.position, spawnRot);
+            Instantiate(projectileGun, transform.position, spawnRot);
             gameObject.GetComponent<AudioSource>().Play();
             timer = 0;
         }

@@ -26,12 +26,26 @@ public class supernove_ring_script : MonoBehaviour {
 
     private void OnTriggerEnter(Collider target)
     {
+        if (target.gameObject.tag.Contains("Enemy"))
+        {
+            target.GetComponent<slime_mover>().life--;
+            if (target.GetComponent<slime_mover>().life <= 0)
+            {
+                Destroy(target.gameObject);
+                GameController_Script.IncreaseScore(0.3f);
+            }
+        }
+    }
+    /*
+    private void OnTriggerEnter(Collider target)
+    {
         if (target.gameObject.tag == "Enemy")
         {
             Destroy(target.gameObject);
 
-            GameController_Script.IncreaseScore(1);
-            Debug.Log(GameController_Script.GetScore());
+            //GameController_Script.IncreaseScore(1);
+            //Debug.Log(GameController_Script.GetScore());
         }
     }
+    */
 }

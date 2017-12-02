@@ -82,10 +82,10 @@ public class player_controller_tank : MonoBehaviour
 
     private void OnTriggerEnter(Collider target)
     {
-        if (target.gameObject.tag == "Enemy")
+        if (target.gameObject.tag.Contains("Enemy"))
         {
             GameController_Script.DecreaseLives();
-            //Instantiate(ship, new Vector3(0, 0, -11), transform.rotation);
+            Instantiate(superNova, transform.position, superNova.transform.rotation);
             Destroy(target.gameObject);
             Destroy(gameObject);
         }

@@ -16,8 +16,17 @@ public class supernova_script : MonoBehaviour {
 	void Update () {
         if (!GetComponent<ParticleSystem>().IsAlive())
         {
-            Instantiate(supernovaRing, transform.parent.position, transform.rotation);
-            Destroy(gameObject);
+            if (transform.parent != null)
+            {
+                Instantiate(supernovaRing, transform.parent.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            else
+            {
+                Instantiate(supernovaRing, transform.position, transform.rotation);
+                Destroy(gameObject);
+            }
+            
         }
 
     }

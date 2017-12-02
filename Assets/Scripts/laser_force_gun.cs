@@ -2,11 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class laser_force : MonoBehaviour {
+public class laser_force_gun : MonoBehaviour {
 
     public float speed;
     public float lifeTime;
-    public GameObject explosion;
 
     public GameObject largeSlime;
     public GameObject mediumSlime;
@@ -41,7 +40,7 @@ public class laser_force : MonoBehaviour {
     {
         if (target.gameObject.tag.Contains("Enemy"))
         {
-            target.GetComponent<slime_mover>().life--;
+            target.GetComponent<slime_mover>().life -= 0.4f;
             if (target.GetComponent<slime_mover>().life <= 0)
             {
                 if (target.gameObject.tag == "Enemy S")
@@ -63,12 +62,11 @@ public class laser_force : MonoBehaviour {
 
                 Destroy(target.gameObject);
             }
-            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
         else if (target.gameObject.tag == "BOSS")
         {
-            target.GetComponent<slime_boss>().life --;
+            target.GetComponent<slime_boss>().life -= 0.4f;
             if (target.GetComponent<slime_boss>().life <= 0)
             {
                 GameController_Script.IncreaseScore(20);
@@ -76,7 +74,6 @@ public class laser_force : MonoBehaviour {
 
                 Destroy(target.gameObject);
             }
-            Instantiate(explosion, transform.position, transform.rotation);
             Destroy(gameObject);
         }
     }
