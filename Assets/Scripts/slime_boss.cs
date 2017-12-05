@@ -24,14 +24,15 @@ public class slime_boss : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (GameController_Script.GameTime.isPaused)
+            return;
 
     }
 
     private void FixedUpdate()
     {
         if (Vector3.Magnitude(transform.position - Camera.main.ViewportToWorldPoint(new Vector3(0.51f, 0.7f, 10))) > 1)
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
+            transform.Translate(Vector3.forward * GameController_Script.GameTime.deltaTime * speed);
         else GetComponentInChildren<Animation>().Play("Wait");
 
         if (spawnTimer > 5)

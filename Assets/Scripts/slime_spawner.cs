@@ -20,14 +20,18 @@ public class slime_spawner : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        
+        if (GameController_Script.GameTime.isPaused)
+            return;
+
     }
 
     private void FixedUpdate()
     {
+        if (GameController_Script.GameTime.isPaused)
+            return;
         timer++;
         spawnRateTimer++;
-        if (spawnRateTimer > 2000)
+        if (spawnRateTimer > 2000 && GameController_Script.GetScore() > 500)
         {
             spawnRate *= 0.8f;
             spawnRateTimer = 0;

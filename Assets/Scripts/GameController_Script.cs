@@ -13,26 +13,43 @@ public class GameController_Script : MonoBehaviour {
     public GameObject specialAttackPanel;
     public GameObject slimeSpawner;
 
+    public GameObject menuPanel;
+    public GameObject pauseControlsPanel;
+
     public Text scoreText;
     public Text gameOverText;
-    public static bool spawnBoss = false;
 
-    private static bool isDead = true;
-    private static bool gameOver = false;
-    private static int score = 0;
-    private static int lives = 3;
+    public static bool spawnBoss;
+
+    private static bool isDead;
+    private static bool gameOver;
+    private static int score;
+    private static int lives;
     private static float scoreMult;
 
-    private static int extraLife = 0;
-    private static int specialTracker = 0;
-    private static int specialAttacks = 0;
+    private static int extraLife;
+    private static int specialTracker;
+    private static int specialAttacks;
 
     private void Start()
     {
+        NewGame();
         Time.timeScale = 0;
+        //GameTime.isPaused = true;
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
-        scoreText.GetComponent<Text>().material.color = new Color(scoreText.GetComponent<Text>().material.color.r, scoreText.GetComponent<Text>().material.color.g, scoreText.GetComponent<Text>().material.color.b, 100);
+    }
+
+    public static class GameTime
+    {
+        public static bool isPaused = false;
+        public static float deltaTime
+        {
+            get
+            {
+                return isPaused ? 0 : Time.deltaTime;
+            }
+        }
     }
 
     void Update()
@@ -44,6 +61,7 @@ public class GameController_Script : MonoBehaviour {
             gameOverPanel.SetActive(true);
             gameOver = true;
             Time.timeScale = 0;
+            //GameTime.isPaused = true;
         }
 
         if (specialAttacks > 0)
@@ -66,6 +84,7 @@ public class GameController_Script : MonoBehaviour {
             {
                 NewGame();
                 Time.timeScale = 1;
+                //GameTime.isPaused = false;
                 SceneManager.LoadScene("Main_Menu");
             }
         }
@@ -75,18 +94,53 @@ public class GameController_Script : MonoBehaviour {
             if (Input.GetKey("r"))
             {
                 Time.timeScale = 1;
+                //GameTime.isPaused = false;
                 Instantiate(ship, new Vector3(0, 0, 0), Quaternion.Euler(0,0,Random.Range(0,360)));
                 controlsPanel.SetActive(false);
                 isDead = false;
             }
         }
 
-        /*
-        if (Input.GetKey("escape"))
+        if (Input.GetKeyDown("escape") && menuPanel.activeSelf == false)
         {
-            Application.Quit();
+            Time.timeScale = 0;
+            GameTime.isPaused = true;
+            menuPanel.SetActive(true);
         }
-        */
+        else if (Input.GetKeyDown("escape") && menuPanel.activeSelf == true)
+        {
+            Time.timeScale = 1;
+            GameTime.isPaused = false;
+            menuPanel.SetActive(false);
+        }
+    }
+
+    public void ButtonPress(GameObject aButton)
+    {
+        
+        if (aButton.GetComponent<Button>().name.Equals("ExitButton"))
+        {
+            Time.timeScale = 1;
+            GameTime.isPaused = false;
+            NewGame();
+            SceneManager.LoadScene("Main_Menu");
+        }
+        else if (aButton.GetComponent<Button>().name.Equals("HowToPlayButton"))
+        {
+            menuPanel.SetActive(false);
+            pauseControlsPanel.SetActive(true);
+        }
+        else if (aButton.GetComponent<Button>().name.Equals("BackButton"))
+        {
+            menuPanel.SetActive(true);
+            pauseControlsPanel.SetActive(false);
+        }
+        else if (aButton.GetComponent<Button>().name.Equals("ResumeButton"))
+        {
+            Time.timeScale = 1;
+            GameTime.isPaused = false;
+            menuPanel.SetActive(false);
+        }
     }
 
     public static int GetScore()
@@ -133,11 +187,11 @@ public class GameController_Script : MonoBehaviour {
         }
 
         //keeps track of when a player earns a special attack. every 100 points = 1 special attack
-        //points over 100 carry over for the next special attack
+        //points over 250 carry over for the next special attack
         specialTracker += pointsAdded;
-        if (specialTracker >= 100)
+        if (specialTracker >= 250)
         {
-            specialTracker = 0 + specialTracker % 100;
+            specialTracker = 0 + specialTracker % 250;
             specialAttacks++;
         }
     }
@@ -151,6 +205,13 @@ public class GameController_Script : MonoBehaviour {
     public void NewGame()
     {
         controlsPanel.SetActive(true);
+
+        spawnBoss = false;
+        isDead = true;
+
+        extraLife = 0;
+        specialTracker = 0;
+        specialAttacks = 0;
 
         score = 0;
         lives = 3;

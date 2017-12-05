@@ -11,15 +11,12 @@ public class player_controller_tank : MonoBehaviour
     public GameObject turret;
     public GameObject superNova;
 
-    // Use this for initialization
-    void Start()
-    {
-
-    }
-
     // Update is called once per frame
     void Update()
     {
+        if (GameController_Script.GameTime.isPaused)
+            return;
+
         // control for special attack
         if (Input.GetKeyDown("space") && GameController_Script.GetSpecialAttacks() > 0)
         {
@@ -58,11 +55,11 @@ public class player_controller_tank : MonoBehaviour
         // rotate via keyboard
         if (Input.GetKey("a"))
         {
-            transform.Rotate(Vector3.forward * Time.deltaTime * turnSpeed);
+            transform.Rotate(Vector3.forward * GameController_Script.GameTime.deltaTime * turnSpeed);
         }
         if (Input.GetKey("d"))
         {
-            transform.Rotate(Vector3.back * Time.deltaTime * turnSpeed);
+            transform.Rotate(Vector3.back * GameController_Script.GameTime.deltaTime * turnSpeed);
         }
 
         // if the player moves out of the screen bounds, they appear on the opposite side of the screen

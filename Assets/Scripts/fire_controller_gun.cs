@@ -9,18 +9,11 @@ public class fire_controller_gun : MonoBehaviour {
     public int fireRate;
     private int timer;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
     private void FixedUpdate()
     {
+        if (GameController_Script.GameTime.isPaused)
+            return;
+
         if (Input.GetButton("Fire2") && timer > fireRate)
         {
 

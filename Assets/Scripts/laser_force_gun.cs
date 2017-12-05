@@ -16,14 +16,12 @@ public class laser_force_gun : MonoBehaviour {
         transform.Rotate(-180, -90, 90);
 		
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     public void FixedUpdate()
     {
+        if (GameController_Script.GameTime.isPaused)
+            return;
+
         if (lifeTime == 0)
         {
             Destroy(gameObject);
@@ -32,7 +30,7 @@ public class laser_force_gun : MonoBehaviour {
             lifeTime--;
 
         transform.position = new Vector3(transform.position.x, transform.position.y, 0);
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        transform.Translate(Vector3.forward * GameController_Script.GameTime.deltaTime * speed);
 
     }
 
@@ -40,7 +38,7 @@ public class laser_force_gun : MonoBehaviour {
     {
         if (target.gameObject.tag.Contains("Enemy"))
         {
-            target.GetComponent<slime_mover>().life -= 0.4f;
+            target.GetComponent<slime_mover>().life -= 0.5f;
             if (target.GetComponent<slime_mover>().life <= 0)
             {
                 if (target.gameObject.tag == "Enemy S")
@@ -66,7 +64,7 @@ public class laser_force_gun : MonoBehaviour {
         }
         else if (target.gameObject.tag == "BOSS")
         {
-            target.GetComponent<slime_boss>().life -= 0.4f;
+            target.GetComponent<slime_boss>().life -= 0.5f;
             if (target.GetComponent<slime_boss>().life <= 0)
             {
                 GameController_Script.IncreaseScore(20);

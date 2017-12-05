@@ -29,14 +29,12 @@ public class slime_mover : MonoBehaviour {
         else if (gameObject.tag == "Enemy L")
             life = 4;
     }
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
 
     private void FixedUpdate()
     {
+        if (GameController_Script.GameTime.isPaused)
+            return;
+
         if (lifeTime == 0)
             Destroy(gameObject);
         else
@@ -45,7 +43,7 @@ public class slime_mover : MonoBehaviour {
         if (lifeTime < 700)
             canMerge = true;
 
-        transform.Translate(Vector3.forward * Time.deltaTime * speed);
+        transform.Translate(Vector3.forward * GameController_Script.GameTime.deltaTime * speed);
     }
 
     private void OnTriggerEnter(Collider target)

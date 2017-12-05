@@ -7,30 +7,9 @@ using UnityEngine.SceneManagement;
 public class MenuControllerScript : MonoBehaviour {
 
     private int blobTimer;
-    public GameObject menuBlob1;
-    public GameObject menuBlob2;
-
-	// Use this for initialization
-	void Start () {
-        blobTimer = 0;
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
-
-    private void FixedUpdate()
-    {
-        blobTimer++;
-        Debug.Log(blobTimer);
-        if (blobTimer > 1000)
-        {
-            menuBlob1.GetComponent<slime_mover>().enabled = true;
-            menuBlob2.GetComponent<slime_mover>().enabled = true;
-        }
-    }
+    private bool blobsMoved;
+    public GameObject menuPanel;
+    public GameObject controlsPanel;
 
     public void ButtonPress(GameObject aButton)
     {
@@ -42,6 +21,16 @@ public class MenuControllerScript : MonoBehaviour {
         else if (aButton.GetComponent<Button>().name.Equals("ExitButton"))
         {
             Application.Quit();
+        }
+        else if (aButton.GetComponent<Button>().name.Equals("HowToPlayButton"))
+        {
+            menuPanel.SetActive(false);
+            controlsPanel.SetActive(true);
+        }
+        else if (aButton.GetComponent<Button>().name.Equals("BackButton"))
+        {
+            menuPanel.SetActive(true);
+            controlsPanel.SetActive(false);
         }
     }
 }
